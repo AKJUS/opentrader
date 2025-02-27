@@ -59,6 +59,9 @@ Thank you for your support!
 
 # ⚡️ Quick start
 
+> [!NOTE]
+> OpenTrader requires Node.js v22.12 or higher. You can check your Node.js version by running `node -v`
+
 Get started with OpenTrader in just a few steps. Follow this quick guide to install, configure, and run your crypto trading bot.
 
 ## Installation
