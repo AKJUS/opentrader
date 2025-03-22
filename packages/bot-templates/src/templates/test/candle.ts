@@ -11,7 +11,7 @@ export function* testCandle(ctx: TBotContext<any>) {
 
   if (onStart) {
     const candles: ICandlestick[] = yield exchange.getCandlesticks({
-      symbol: 'BTC/USDT',
+      symbol: "BTC/USDT",
       bar: BarSize.ONE_MINUTE,
     });
     logger.info(`[CandleStrategy] Display volume in ${JSON.stringify(candles)}`);
