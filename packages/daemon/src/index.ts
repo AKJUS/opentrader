@@ -67,13 +67,13 @@ export class Daemon {
    * Shuts down the Daemon by closing the server and shutting down the platform.
    */
   async shutdown() {
-    logger.info("Shutting down Daemon...");
+    logger.info("Shutting down Platform...");
 
     await this.server.close();
-    logger.info("Fastify Server shutted down gracefully.");
+    logger.info("Fastify Server has shut down gracefully.");
 
     await this.platform.shutdown();
-    logger.info("Processor shutted down gracefully.");
+    logger.info("Platform has shut down gracefully. Press CTRL+C to exit.");
   }
 }
 
