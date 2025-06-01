@@ -3,9 +3,10 @@ import type { SmartTradeWithOrders, ExchangeAccountWithCredentials } from "@open
 import type { IExchange } from "@opentrader/exchanges";
 import { exchangeProvider } from "@opentrader/exchanges";
 import { logger } from "@opentrader/logger";
-import { ITicker, XEntityType, XOrderStatus, XOrderType } from "@opentrader/types";
+import { ITicker, XEntityType } from "@opentrader/types";
 import type { ISmartTradeExecutor, SmartTradeContext } from "../smart-trade-executor.interface.js";
 import { OrderExecutor } from "../order/order.executor.js";
+import { decomposeSymbol } from "@opentrader/tools";
 
 export class TradeExecutor implements ISmartTradeExecutor {
   smartTrade: SmartTradeWithOrders;
@@ -86,14 +87,17 @@ export class TradeExecutor implements ISmartTradeExecutor {
     const entryOrder = this.smartTrade.orders.find((order) => order.entityType === "EntryOrder")!;
     const takeProfitOrder = this.smartTrade.orders.find((order) => order.entityType === "TakeProfitOrder");
     const stopLossOrder = this.smartTrade.orders.find((order) => order.entityType === XEntityType.StopLossOrder);
+    const { baseCurrency, quoteCurrency } = decomposeSymbol(this.smartTrade.symbol);
 
     if (entryOrder.status === "Idle") {
       const orderExecutor = new OrderExecutor(entryOrder, this.exchange, this.smartTrade.symbol);
       await orderExecutor.place();
       await this.pull();
 
+      const quoteLogValue = entryOrder.price ? entryOrder.quantity * entryOrder.price : "?";
+      const priceLogValue = entryOrder.price ? entryOrder.price : "Market";
       logger.info(
-        `Entry ${entryOrder.type} order placed for ${this.smartTrade.symbol} (qty: ${entryOrder.quantity}, price: ${entryOrder.type === XOrderType.Market ? "market" : entryOrder.price})`,
+        `[TradeExecutor] Placed entry ${entryOrder.side} ${entryOrder.quantity} ${baseCurrency} for ${quoteLogValue} ${quoteCurrency} at ${priceLogValue}`,
       );
 
       return true;
@@ -102,8 +106,10 @@ export class TradeExecutor implements ISmartTradeExecutor {
       await orderExecutor.place();
       await this.pull();
 
+      const quoteLogValue = takeProfitOrder.price ? takeProfitOrder.quantity * takeProfitOrder.price : "?";
+      const priceLogValue = takeProfitOrder.price ? takeProfitOrder.price : "Market";
       logger.info(
-        `TP ${takeProfitOrder.type} order placed for ${this.smartTrade.symbol} (qty: ${takeProfitOrder.quantity}, price: ${takeProfitOrder.type === XOrderType.Market ? "market" : takeProfitOrder.price})`,
+        `[TradeExecutor] Placed take profit ${takeProfitOrder.side} ${takeProfitOrder.quantity} ${baseCurrency} for ${quoteLogValue} ${quoteCurrency} at ${priceLogValue}`,
       );
 
       return true;
@@ -127,8 +133,10 @@ export class TradeExecutor implements ISmartTradeExecutor {
 
       await this.pull();
 
+      const quoteLogValue = stopLossOrder.price ? stopLossOrder.quantity * stopLossOrder.price : "?";
+      const priceLogValue = stopLossOrder.price ? stopLossOrder.price : "Market";
       logger.info(
-        `SL ${stopLossOrder.type} order placed for ${this.smartTrade.symbol} (qty: ${stopLossOrder.quantity}, price: ${stopLossOrder.type === XOrderType.Market ? "market" : stopLossOrder.price})`,
+        `[TradeExecutor] Placed stop loss ${stopLossOrder.side} ${stopLossOrder.quantity} ${baseCurrency} for ${quoteLogValue} ${quoteCurrency} at ${priceLogValue}`,
       );
 
       return true;
@@ -164,7 +172,7 @@ export class TradeExecutor implements ISmartTradeExecutor {
 
     const cancelledOrders = allOrders.filter((cancelled) => cancelled);
     logger.info(
-      `Orders were canceled: Position { id: ${this.smartTrade.id} }. Cancelled ${cancelledOrders.length} of ${allOrders.length} orders.`,
+      `[TradeExecutor] Cancelled ${cancelledOrders.length} of ${allOrders.length} orders of [ST - ${this.smartTrade.ref}].`,
     );
 
     return cancelledOrders.length;
