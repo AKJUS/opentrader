@@ -1,7 +1,7 @@
 import { EventEmitter } from "node:events";
 import { TBotWithExchangeAccount } from "@opentrader/db";
 import { findStrategy } from "@opentrader/bot-templates/server";
-import { getWatchers } from "@opentrader/processing";
+import { getWatchers } from "../processing/index.js";
 import {
   CandleClosedMarketEvent,
   OrderbookChangeMarketEvent,

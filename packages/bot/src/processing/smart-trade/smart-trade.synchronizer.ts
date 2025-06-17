@@ -5,23 +5,13 @@ import type {
   SmartTradeEntity_Order_Order,
   SmartTradeWithOrders,
 } from "@opentrader/db";
-import {
-  assertIsOrderBased,
-  toSmartTradeEntity,
-  xprisma,
-} from "@opentrader/db";
+import { assertIsOrderBased, toSmartTradeEntity, xprisma } from "@opentrader/db";
 import type { IGetLimitOrderResponse } from "@opentrader/types";
 import { OrderNotFound } from "ccxt";
 
 type SyncParams = {
-  onFilled: (
-    order: OrderEntity,
-    exchangeOrder: IGetLimitOrderResponse,
-  ) => Promise<void> | void;
-  onCanceled: (
-    order: OrderEntity,
-    exchangeOrder: IGetLimitOrderResponse,
-  ) => Promise<void> | void;
+  onFilled: (order: OrderEntity, exchangeOrder: IGetLimitOrderResponse) => Promise<void> | void;
+  onCanceled: (order: OrderEntity, exchangeOrder: IGetLimitOrderResponse) => Promise<void> | void;
 };
 
 export class SmartTradeSynchronizer {
@@ -29,10 +19,7 @@ export class SmartTradeSynchronizer {
   private smartTrade: SmartTradeEntity_Order_Order;
   private exchangeAccount: ExchangeAccountWithCredentials;
 
-  constructor(
-    smartTradeModel: SmartTradeWithOrders,
-    exchangeAccount: ExchangeAccountWithCredentials,
-  ) {
+  constructor(smartTradeModel: SmartTradeWithOrders, exchangeAccount: ExchangeAccountWithCredentials) {
     this.exchangeAccount = exchangeAccount;
     const smartTrade = toSmartTradeEntity(smartTradeModel);
 
@@ -82,9 +69,7 @@ export class SmartTradeSynchronizer {
    */
   async sync(params: SyncParams) {
     const { entryOrder, takeProfitOrder } = this.smartTrade;
-    const orders = [entryOrder, takeProfitOrder].filter(
-      (order) => order.status === "Placed",
-    );
+    const orders = [entryOrder, takeProfitOrder].filter((order) => order.status === "Placed");
 
     for (const order of orders) {
       await this.syncOrder(order, params);
@@ -93,9 +78,7 @@ export class SmartTradeSynchronizer {
 
   private async syncOrder(order: OrderEntity, params: SyncParams) {
     const { onFilled, onCanceled } = params;
-    console.log(
-      `SmartTradeSynchronizer: Syncing order (id: ${order.id}) status with the exchange`,
-    );
+    console.log(`SmartTradeSynchronizer: Syncing order (id: ${order.id}) status with the exchange`);
 
     if (!order.exchangeOrderId) {
       throw new Error("Order: Missing `exchangeOrderId`");
@@ -121,9 +104,7 @@ export class SmartTradeSynchronizer {
             filledAt: new Date(exchangeOrder.lastTradeTimestamp),
             fee: exchangeOrder.fee,
           });
-          console.log(
-            `        -> Filled with price ${exchangeOrder.filledPrice} and fee ${exchangeOrder.fee}`,
-          );
+          console.log(`        -> Filled with price ${exchangeOrder.filledPrice} and fee ${exchangeOrder.fee}`);
 
           // emit onFilled
           await onFilled(order, exchangeOrder);
@@ -143,9 +124,7 @@ export class SmartTradeSynchronizer {
       if (err instanceof OrderNotFound) {
         await xprisma.order.updateStatus("Deleted", order.id);
 
-        console.log(
-          `        Order not found on the exchange. Status updated to "Deleted"`,
-        );
+        console.log(`        Order not found on the exchange. Status updated to "Deleted"`);
       } else {
         throw err;
       }

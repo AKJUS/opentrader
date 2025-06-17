@@ -1,7 +1,7 @@
 import { EventEmitter } from "node:events";
 import type { TBotWithExchangeAccount } from "@opentrader/db";
 import { findStrategy } from "@opentrader/bot-templates/server";
-import { getWatchers, getTimeframe, getRequiredHistory } from "@opentrader/processing";
+import { getWatchers, getTimeframe, getRequiredHistory } from "../processing/index.js";
 import { decomposeSymbolId } from "@opentrader/tools";
 import { BarSize, ExchangeCode, ICandlestick, MarketId } from "@opentrader/types";
 import { exchangeProvider } from "@opentrader/exchanges";

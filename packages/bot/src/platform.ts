@@ -7,7 +7,7 @@ import {
 } from "@opentrader/db";
 import { logger } from "@opentrader/logger";
 import { exchangeProvider } from "@opentrader/exchanges";
-import { BotProcessing } from "@opentrader/processing";
+import { BotProcessing } from "./processing/index.js";
 import { eventBus } from "@opentrader/event-bus";
 import { ExchangeCode, MarketEvent } from "@opentrader/types";
 import { EventEmitter } from "node:events";

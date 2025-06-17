@@ -23,7 +23,6 @@
     "@opentrader/event-bus": "workspace:*",
     "@opentrader/exchanges": "workspace:*",
     "@opentrader/prisma": "workspace:*",
-    "@opentrader/processing": "workspace:*",
     "@opentrader/tools": "workspace:*",
     "@trpc/server": "^11.4.1",
     "ccxt": "4.4.89",

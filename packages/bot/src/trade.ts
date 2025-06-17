@@ -4,7 +4,7 @@ import { type ExchangeAccountWithCredentials, SmartTradeWithOrders, xprisma } fr
 import { eventBus } from "@opentrader/event-bus";
 import { exchangeProvider, IExchange } from "@opentrader/exchanges";
 import { logger } from "@opentrader/logger";
-import { SmartTradeExecutor } from "@opentrader/processing";
+import { SmartTradeExecutor } from "./processing/index.js";
 import { ITicker } from "@opentrader/types";
 import { TickerChannel, TickerEvent } from "./channels/ticker/index.js";
 import { OrderEvent, OrdersStream } from "./streams/orders.stream.js";

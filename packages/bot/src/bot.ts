@@ -3,7 +3,7 @@ import { findStrategy } from "@opentrader/bot-templates/server";
 import { eventBus } from "@opentrader/event-bus";
 import { SmartTradeWithOrders, TBotWithExchangeAccount, xprisma } from "@opentrader/db";
 import { logger } from "@opentrader/logger";
-import { BotProcessing, getWatchers, shouldRunStrategy } from "@opentrader/processing";
+import { BotProcessing, getWatchers, shouldRunStrategy } from "./processing/index.js";
 import { MarketEvent, MarketId, StrategyEvent } from "@opentrader/types";
 import { MarketsStream } from "./streams/markets.stream.js";
 import { OrderEvent, OrdersStream } from "./streams/orders.stream.js";

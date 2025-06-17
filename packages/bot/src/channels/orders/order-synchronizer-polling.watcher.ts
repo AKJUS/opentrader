@@ -16,7 +16,7 @@
  * Repository URL: https://github.com/bludnic/opentrader
  */
 import { NetworkError, RequestTimeout } from "ccxt";
-import { ExchangeAccountProcessor } from "@opentrader/processing";
+import { ExchangeAccountProcessor } from "../../processing/index.js";
 import { logger } from "@opentrader/logger";
 import { OrderSynchronizerWatcher } from "./order-synchronizer-watcher.abstract.js";
 import { ExchangeCode } from "@opentrader/types";

@@ -2,7 +2,7 @@ import { EventEmitter } from "node:events";
 import { logger } from "@opentrader/logger";
 import type { TBotWithExchangeAccount } from "@opentrader/db";
 import { findStrategy } from "@opentrader/bot-templates/server";
-import { getWatchers } from "@opentrader/processing";
+import { getWatchers } from "../processing/index.js";
 import { decomposeSymbolId } from "@opentrader/tools";
 import { ExchangeCode } from "@opentrader/types";
 import { exchangeProvider } from "@opentrader/exchanges";

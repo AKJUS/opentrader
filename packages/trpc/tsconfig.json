@@ -16,8 +16,6 @@
       "@opentrader/exchanges/*": ["../exchanges/src/*"],
       "@opentrader/prisma": ["../prisma/src/index.ts"],
       "@opentrader/prisma/*": ["../prisma/src/*"],
-      "@opentrader/processing": ["../processing/src/index.ts"],
-      "@opentrader/processing/*": ["../processing/src/*"],
       "@opentrader/tools": ["../tools/src/index.ts"],
       "@opentrader/tools/*": ["../tools/src/*"],
       "@opentrader/tsconfig/*": ["../tsconfig/*"],
@@ -55,9 +53,6 @@
     },
     {
       "path": "../prisma"
-    },
-    {
-      "path": "../processing"
     },
     {
       "path": "../tools"
