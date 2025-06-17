@@ -39,9 +39,6 @@
       "path": "packages/prisma"
     },
     {
-      "path": "packages/processing"
-    },
-    {
       "path": "packages/tools"
     },
     {
