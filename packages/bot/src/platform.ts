@@ -9,7 +9,7 @@ import { logger } from "@opentrader/logger";
 import { exchangeProvider } from "@opentrader/exchanges";
 import { BotProcessing } from "@opentrader/processing";
 import { eventBus } from "@opentrader/event-bus";
-import { MarketEvent } from "@opentrader/types";
+import { ExchangeCode, MarketEvent } from "@opentrader/types";
 import { EventEmitter } from "node:events";
 import { MarketsStream } from "./streams/markets.stream.js";
 import { OrderEvent, OrdersStream } from "./streams/orders.stream.js";
@@ -40,6 +40,7 @@ export class Platform {
     const customStrategiesPath = process.env.CUSTOM_STRATEGIES_PATH;
     if (customStrategiesPath) await this.loadCustomStrategies(customStrategiesPath);
 
+    await this.removeDeprecatedExchanges();
     await this.cleanOrphanedBots();
     await this.ordersStream.create();
     await this.marketStream.create();
@@ -56,6 +57,22 @@ export class Platform {
     this.marketStream.destroy();
 
     this.unsubscribeFromEventBus();
+  }
+
+  async removeDeprecatedExchanges() {
+    const exchangeCodes = Object.values(ExchangeCode);
+
+    const deprecatedExchanges = await xprisma.exchangeAccount.findMany({
+      where: { exchangeCode: { notIn: exchangeCodes } },
+    });
+
+    if (deprecatedExchanges.length > 0) {
+      logger.warn(`Some exchanges are not supported anymore. Removing exchange accounts…`);
+      for (const exchangeAccount of deprecatedExchanges) {
+        await xprisma.exchangeAccount.delete({ where: { id: exchangeAccount.id } });
+        logger.warn(`Exchange account [${exchangeAccount.exchangeCode}] ${exchangeAccount.name} removed`);
+      }
+    }
   }
 
   /**
