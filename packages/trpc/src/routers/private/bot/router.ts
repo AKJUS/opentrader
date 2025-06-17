@@ -15,8 +15,6 @@ import { stopGridBot } from "./stop-bot/handler.js";
 import { backtest } from "./backtest/handler.js";
 import { ZBacktestInputSchema } from "./backtest/schema.js";
 import { ZStopGridBotInputSchema } from "./stop-bot/schema.js";
-import { manualProcessGridBot } from "./manual-process/handler.js";
-import { ZManualProcessGridBotInputSchema } from "./manual-process/schema.js";
 import { getActiveSmartTrades } from "./get-active-smart-trades/handler.js";
 import { ZGetActiveSmartTradesInputSchema } from "./get-active-smart-trades/schema.js";
 import { getOpenSmartTrades } from "./get-open-smart-trades/handler.js";
@@ -27,10 +25,6 @@ import { getCompletedSmartTrades } from "./get-completed-smart-trades/handler.js
 import { ZGetCompletedSmartTradesInputSchema } from "./get-completed-smart-trades/schema.js";
 import { getGridBotOrders } from "./get-orders/handler.js";
 import { ZGetGridBotOrdersInputSchema } from "./get-orders/schema.js";
-import { cronPlacePendingOrders } from "./cron-place-pending-orders/handler.js";
-import { ZCronPlacePendingOrdersInputSchema } from "./cron-place-pending-orders/schema.js";
-import { syncOrders } from "./sync-orders/handler.js";
-import { ZSyncGridBotOrdersInputSchema } from "./sync-orders/schema.js";
 import { getBotLogs } from "./get-bot-logs/handler.js";
 import { ZGetBotLogs } from "./get-bot-logs/schema.js";
 import { getStrategies } from "./get-strategies/handler.js";
@@ -44,9 +38,6 @@ export const botRouter = router({
   start: authorizedProcedure.input(ZStartGridBotInputSchema).mutation(startGridBot),
   stop: authorizedProcedure.input(ZStopGridBotInputSchema).mutation(stopGridBot),
   backtest: authorizedProcedure.input(ZBacktestInputSchema).mutation(backtest),
-  manualProcess: authorizedProcedure.input(ZManualProcessGridBotInputSchema).mutation(manualProcessGridBot),
-  cronPlaceLimitOrders: authorizedProcedure.input(ZCronPlacePendingOrdersInputSchema).mutation(cronPlacePendingOrders),
-  syncOrders: authorizedProcedure.input(ZSyncGridBotOrdersInputSchema).mutation(syncOrders),
   activeSmartTrades: authorizedProcedure.input(ZGetActiveSmartTradesInputSchema).query(getActiveSmartTrades),
   openSmartTrades: authorizedProcedure.input(ZGetOpenSmartTradesInputSchema).query(getOpenSmartTrades),
   pendingSmartTrades: authorizedProcedure.input(ZGetPendingSmartTradesInputSchema).query(getPendingSmartTrades),

@@ -1,7 +1,6 @@
 import { trpc } from "../trpc.js";
 import {
   botRouter,
-  cronRouter,
   exchangeAccountsRouter,
   dcaBotRouter,
   gridBotRouter,
@@ -21,7 +20,6 @@ export const appRouter = trpc.router({
   gridBot: gridBotRouter,
   smartTrade: smartTradeRouter,
   order: orderRouter,
-  cron: cronRouter,
   public: publicRouter,
 });
 
