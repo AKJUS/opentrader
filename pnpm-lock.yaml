@@ -190,6 +190,9 @@ importers:
 
   packages/bot:
     dependencies:
+      '@opentrader/bot-processor':
+        specifier: workspace:*
+        version: link:../bot-processor
       '@opentrader/bot-templates':
         specifier: workspace:*
         version: link:../bot-templates

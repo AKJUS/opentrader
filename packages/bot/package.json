@@ -18,6 +18,7 @@
     "vitest": "^3.2.3"
   },
   "dependencies": {
+    "@opentrader/bot-processor": "workspace:*",
     "@opentrader/bot-templates": "workspace:*",
     "@opentrader/db": "workspace:*",
     "@opentrader/event-bus": "workspace:*",
