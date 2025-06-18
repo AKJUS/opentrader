@@ -52,5 +52,6 @@
     "*.prisma": [
       "prettier --write"
     ]
-  }
+  },
+  "packageManager": "pnpm@10.12.1"
 }

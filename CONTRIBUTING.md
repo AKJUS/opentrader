@@ -4,7 +4,7 @@
 # NodeJS v22.12 or higher
 node -v
 
-# PNPM v9.15 or higher
+# PNPM v10 or higher
 pnpm -v
 
 # `moonrepo` must be installed
@@ -133,5 +133,3 @@ moon run backend:dev
 # Conventional Commits
 
 Please follow the [Conventional Commits](https://conventionalcommits.org) standard to keep commit messages clear, consistent, and meaningful.
-
-
