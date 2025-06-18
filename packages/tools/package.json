@@ -17,6 +17,6 @@
   },
   "dependencies": {
     "@opentrader/types": "workspace:*",
-    "big.js": "^6.2.2"
+    "big.js": "^7.0.1"
   }
 }
