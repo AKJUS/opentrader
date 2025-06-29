@@ -23,6 +23,7 @@ export async function getSmartTrades({ ctx, input }: Options) {
       orders: true,
       exchangeAccount: true,
     },
+    take: 1000,
   });
 
   return smartTrades.map((smartTrade) => toSmartTradeEntity(smartTrade));
