@@ -1,11 +1,6 @@
 import type { Prisma, PrismaClient } from "@prisma/client";
-import type {
-  DefaultArgs,
-  GetFindResult,
-  InternalArgs,
-} from "@prisma/client/runtime/library";
-import type { TBotState, TGridBotSettings } from "../../types/index.js";
-import { ZGridBotSettings } from "../../types/grid-bot/index.js";
+import type { DefaultArgs, GetFindResult, InternalArgs } from "@prisma/client/runtime/library";
+import { TBotState, TGridBotSettings, ZGridBotSettings } from "@opentrader/types";
 
 type NarrowBotType<ExtArgs extends InternalArgs, T> = Omit<
   Awaited<GetFindResult<Prisma.$BotPayload<ExtArgs>, T, {}>>,
@@ -15,9 +10,7 @@ type NarrowBotType<ExtArgs extends InternalArgs, T> = Omit<
   state: TBotState;
 };
 
-export const gridBotModel = <ExtArgs extends InternalArgs = DefaultArgs>(
-  prisma: PrismaClient,
-) => ({
+export const gridBotModel = <ExtArgs extends InternalArgs = DefaultArgs>(prisma: PrismaClient) => ({
   async findUnique<T extends Prisma.BotFindUniqueArgs<ExtArgs>>(
     args: Prisma.SelectSubset<T, Prisma.BotFindUniqueArgs<ExtArgs>>,
   ) {
@@ -78,9 +71,7 @@ export const gridBotModel = <ExtArgs extends InternalArgs = DefaultArgs>(
 
     return bot as unknown as NarrowBotType<ExtArgs, T>;
   },
-  async findMany<T extends Prisma.BotFindManyArgs>(
-    args: Prisma.SelectSubset<T, Prisma.BotFindManyArgs>,
-  ) {
+  async findMany<T extends Prisma.BotFindManyArgs>(args: Prisma.SelectSubset<T, Prisma.BotFindManyArgs>) {
     if (args.where) {
       args.where.type = "GridBot";
     }
@@ -88,9 +79,7 @@ export const gridBotModel = <ExtArgs extends InternalArgs = DefaultArgs>(
 
     return bots.map((bot) => {
       if ("settings" in bot) {
-        (bot as any).settings = ZGridBotSettings.parse(
-          JSON.parse(bot.settings),
-        );
+        (bot as any).settings = ZGridBotSettings.parse(JSON.parse(bot.settings));
       }
       if ("state" in bot) {
         (bot as any).state = JSON.parse(bot.state) as TBotState;
@@ -99,9 +88,7 @@ export const gridBotModel = <ExtArgs extends InternalArgs = DefaultArgs>(
       return bot as unknown as NarrowBotType<ExtArgs, T>;
     });
   },
-  async create<T extends Prisma.BotCreateArgs>(
-    args: Prisma.SelectSubset<T, Prisma.BotCreateArgs>,
-  ) {
+  async create<T extends Prisma.BotCreateArgs>(args: Prisma.SelectSubset<T, Prisma.BotCreateArgs>) {
     ZGridBotSettings.parse(JSON.parse(args.data.settings));
 
     const bot = await prisma.bot.create<T>({
@@ -121,9 +108,7 @@ export const gridBotModel = <ExtArgs extends InternalArgs = DefaultArgs>(
 
     return bot as unknown as NarrowBotType<ExtArgs, T>;
   },
-  async update<T extends Prisma.BotUpdateArgs>(
-    args: Prisma.SelectSubset<T, Prisma.BotUpdateArgs>,
-  ) {
+  async update<T extends Prisma.BotUpdateArgs>(args: Prisma.SelectSubset<T, Prisma.BotUpdateArgs>) {
     if (typeof args.data.settings === "string") {
       ZGridBotSettings.parse(JSON.parse(args.data.settings));
     }

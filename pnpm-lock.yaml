@@ -583,6 +583,10 @@ importers:
   packages/tsconfig: {}
 
   packages/types:
+    dependencies:
+      zod:
+        specifier: 3.25.65
+        version: 3.25.65
     devDependencies:
       '@opentrader/tsconfig':
         specifier: workspace:*

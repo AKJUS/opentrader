@@ -1,9 +1,6 @@
 import type { Prisma, PrismaClient } from "@prisma/client";
 import type { DefaultArgs, GetFindResult, InternalArgs } from "@prisma/client/runtime/library";
-
-import type { XBotType } from "@opentrader/types";
-import { TBotState, ZDcaBotSettings } from "../../types/index.js";
-import { TDcaBotSettings } from "../../types/dca-bot/index.js";
+import { TBotState, TDcaBotSettings, XBotType, ZDcaBotSettingsRefine } from "@opentrader/types";
 
 type NarrowBotType<ExtArgs extends InternalArgs, T> = Omit<
   Awaited<GetFindResult<Prisma.$BotPayload<ExtArgs>, T, {}>>,
@@ -30,7 +27,7 @@ export const dcaBotModel = <ExtArgs extends InternalArgs = DefaultArgs>(prisma: 
     if (!bot) return null;
 
     if ("settings" in bot) {
-      (bot as any).settings = ZDcaBotSettings.parse(JSON.parse(bot.settings));
+      (bot as any).settings = ZDcaBotSettingsRefine.parse(JSON.parse(bot.settings));
     }
     if ("state" in bot) {
       (bot as any).state = JSON.parse(bot.state) as TBotState;
@@ -50,7 +47,7 @@ export const dcaBotModel = <ExtArgs extends InternalArgs = DefaultArgs>(prisma: 
     });
 
     if ("settings" in bot) {
-      (bot as any).settings = ZDcaBotSettings.parse(JSON.parse(bot.settings));
+      (bot as any).settings = ZDcaBotSettingsRefine.parse(JSON.parse(bot.settings));
     }
     if ("state" in bot) {
       (bot as any).state = JSON.parse(bot.state) as TBotState;
@@ -68,7 +65,7 @@ export const dcaBotModel = <ExtArgs extends InternalArgs = DefaultArgs>(prisma: 
     const bot = await prisma.bot.findFirstOrThrow<T>(args);
 
     if ("settings" in bot) {
-      (bot as any).settings = ZDcaBotSettings.parse(JSON.parse(bot.settings));
+      (bot as any).settings = ZDcaBotSettingsRefine.parse(JSON.parse(bot.settings));
     }
     if ("state" in bot) {
       (bot as any).state = JSON.parse(bot.state) as TBotState;
@@ -84,7 +81,7 @@ export const dcaBotModel = <ExtArgs extends InternalArgs = DefaultArgs>(prisma: 
 
     return bots.map((bot) => {
       if ("settings" in bot) {
-        (bot as any).settings = ZDcaBotSettings.parse(JSON.parse(bot.settings));
+        (bot as any).settings = ZDcaBotSettingsRefine.parse(JSON.parse(bot.settings));
       }
       if ("state" in bot) {
         (bot as any).state = JSON.parse(bot.state) as TBotState;
@@ -94,7 +91,7 @@ export const dcaBotModel = <ExtArgs extends InternalArgs = DefaultArgs>(prisma: 
     });
   },
   async create<T extends Prisma.BotCreateArgs>(args: Prisma.SelectSubset<T, Prisma.BotCreateArgs>) {
-    ZDcaBotSettings.parse(JSON.parse(args.data.settings));
+    ZDcaBotSettingsRefine.parse(JSON.parse(args.data.settings));
 
     const bot = await prisma.bot.create<T>({
       ...args,
@@ -105,7 +102,7 @@ export const dcaBotModel = <ExtArgs extends InternalArgs = DefaultArgs>(prisma: 
     });
 
     if ("settings" in bot) {
-      (bot as any).settings = ZDcaBotSettings.parse(JSON.parse(bot.settings));
+      (bot as any).settings = ZDcaBotSettingsRefine.parse(JSON.parse(bot.settings));
     }
     if ("state" in bot) {
       (bot as any).state = JSON.parse(bot.state) as TBotState;
@@ -115,7 +112,7 @@ export const dcaBotModel = <ExtArgs extends InternalArgs = DefaultArgs>(prisma: 
   },
   async update<T extends Prisma.BotUpdateArgs>(args: Prisma.SelectSubset<T, Prisma.BotUpdateArgs>) {
     if (typeof args.data.settings === "string") {
-      ZDcaBotSettings.parse(JSON.parse(args.data.settings));
+      ZDcaBotSettingsRefine.parse(JSON.parse(args.data.settings));
     }
 
     const bot = await prisma.bot.update<T>({
@@ -127,7 +124,7 @@ export const dcaBotModel = <ExtArgs extends InternalArgs = DefaultArgs>(prisma: 
     });
 
     if ("settings" in bot) {
-      (bot as any).settings = ZDcaBotSettings.parse(JSON.parse(bot.settings));
+      (bot as any).settings = ZDcaBotSettingsRefine.parse(JSON.parse(bot.settings));
     }
     if ("state" in bot) {
       (bot as any).state = JSON.parse(bot.state) as TBotState;

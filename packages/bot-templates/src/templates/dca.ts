@@ -1,7 +1,7 @@
 import { evaluateConditions, extractIndicators, IndicatorsValues, requiredHistory } from "@opentrader/tools";
 import { z } from "zod";
 import { logger } from "@opentrader/logger";
-import { BarSize, XOrderType } from "@opentrader/types";
+import { BarSize, ZDcaBotSettings } from "@opentrader/types";
 import {
   useDca,
   cancelSmartTrade,
@@ -60,28 +60,7 @@ dca.displayName = "DCA Bot";
 dca.description =
   "Dollar-Cost Averaging (DCA) is a trading strategy that involves entering a position through multiple smaller orders, known as Safety Orders. These orders are placed at predetermined levels, below the initial entry price. This method helps reduce the impact of adverse price movements by lowering the overall cost of the position. Once the market reverses and the price reaches a favorable level, the position is closed at the Take Profit level. This strategy is especially effective in volatile markets, allowing traders to capitalize on price fluctuations while minimizing the risks of poor timing with a single large entry.";
 dca.hidden = true;
-dca.schema = z.object({
-  entry: z.object({
-    quantity: z.number().positive().describe("Quantity of the Entry Order in base currency"),
-    type: z.nativeEnum(XOrderType).describe("Entry with Limit or Market order"),
-    price: z.number().optional(),
-    conditions: z.any().optional(), // @todo schema validation
-  }),
-  tp: z.object({
-    percent: z.number().positive().describe("Take Profit from entry order price in %"),
-  }),
-  sl: z
-    .object({
-      percent: z.number().positive().describe("Stop Loss drop from entry order price in %"),
-    })
-    .optional(),
-  safetyOrders: z.array(
-    z.object({
-      quantity: z.number().positive().positive("Quantity of the Safety Order in base currency"),
-      priceDeviation: z.number().positive().positive("Price deviation from the Entry Order price in %"),
-    }),
-  ),
-});
+dca.schema = ZDcaBotSettings;
 
 dca.runPolicy = {
   onOrderFilled: true,

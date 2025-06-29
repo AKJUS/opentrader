@@ -3,7 +3,7 @@ import type { IExchange } from "@opentrader/exchanges";
 import type { IBotConfiguration, SmartTradeService, TBotContext } from "@opentrader/bot-processor";
 import { cancelSmartTrade, useExchange, useSmartTrade } from "@opentrader/bot-processor";
 import { computeGridLevelsFromCurrentAssetPrice, decomposeSymbol } from "@opentrader/tools";
-import type { IGetMarketPriceResponse } from "@opentrader/types";
+import { ZGridBotSettings, type IGetMarketPriceResponse } from "@opentrader/types";
 import { logger } from "@opentrader/logger";
 
 /**
@@ -64,14 +64,7 @@ export function* gridBot(ctx: TBotContext<GridBotConfig>) {
 
 gridBot.displayName = "Grid Bot Advanced";
 gridBot.hidden = true;
-gridBot.schema = z.object({
-  gridLines: z.array(
-    z.object({
-      price: z.number().positive(),
-      quantity: z.number().positive(),
-    }),
-  ),
-});
+gridBot.schema = ZGridBotSettings;
 gridBot.runPolicy = {
   onTradeCompleted: true,
 };

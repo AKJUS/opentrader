@@ -1,7 +1,6 @@
 import { z } from "zod";
 
-import { ZBotSettings } from "@opentrader/db";
-import { BarSize } from "@opentrader/types";
+import { BarSize, ZBotSettings } from "@opentrader/types";
 
 export const ZBacktestInputSchema = z.object({
   startDate: z.date(),

@@ -1,5 +1,6 @@
 import { TRPCError } from "@trpc/server";
-import { xprisma, ZDcaBotSettings } from "@opentrader/db";
+import { xprisma } from "@opentrader/db";
+import { ZDcaBotSettingsRefine } from "@opentrader/types";
 import { BotService } from "../../../../services/bot.service.js";
 import type { Context } from "../../../../utils/context.js";
 import type { TUpdateDcaBotInputSchema } from "./schema.js";
@@ -18,7 +19,7 @@ export async function updateDcaBot({ ctx, input }: Options) {
   botService.assertIsNotAlreadyRunning();
   botService.assertIsNotProcessing();
 
-  const parsed = ZDcaBotSettings.safeParse(data.settings);
+  const parsed = ZDcaBotSettingsRefine.safeParse(data.settings);
   if (!parsed.success) {
     throw new TRPCError({
       message: `Invalid strategy params: ${parsed.error.message}`,
