@@ -166,12 +166,19 @@ export class CandlesChannel extends EventEmitter {
     let minuteCandles: ICandlestick[] = [];
     let done = false;
 
+    logger.debug(
+      `[${this.symbol}#${this.timeframe}] Fetching the lastest closed candle since ${new Date(since).toISOString()}.`,
+    );
+
     while (!done) {
       const candles = await this.exchange.getCandlesticks({
         symbol: this.symbol,
         bar: BarSize.ONE_MINUTE,
         since,
       });
+      logger.debug(
+        `[${this.symbol}#${this.timeframe}] Fetched ${candles.length} candle(s) since ${new Date(since).toISOString()}.`,
+      );
 
       if (candles.length === 0) {
         done = true;
@@ -182,6 +189,9 @@ export class CandlesChannel extends EventEmitter {
 
       since = candles[candles.length - 1].timestamp + 60000;
     }
+    logger.debug(
+      `[${this.symbol}#${this.timeframe}] Fetched in total ${minuteCandles.length} candles since ${new Date(since).toISOString()}`,
+    );
 
     this.bucket = minuteCandles;
     while (this.bucket.length >= this.bucketSize + 1) {
