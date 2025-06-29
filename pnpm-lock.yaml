@@ -84,8 +84,8 @@ importers:
         specifier: ^11.4.1
         version: 11.4.1(typescript@5.8.3)
       ccxt:
-        specifier: 4.4.89
-        version: 4.4.89
+        specifier: 4.4.91
+        version: 4.4.91
       commander:
         specifier: ^12.1.0
         version: 12.1.0
@@ -230,8 +230,8 @@ importers:
         specifier: ^3.2.6
         version: 3.2.6
       ccxt:
-        specifier: 4.4.89
-        version: 4.4.89
+        specifier: 4.4.91
+        version: 4.4.91
       cron:
         specifier: ^3.3.1
         version: 3.5.0
@@ -391,8 +391,8 @@ importers:
         specifier: workspace:*
         version: link:../tools
       ccxt:
-        specifier: 4.4.89
-        version: 4.4.89
+        specifier: 4.4.91
+        version: 4.4.91
     devDependencies:
       '@opentrader/tsconfig':
         specifier: workspace:*
@@ -555,8 +555,8 @@ importers:
         specifier: ^11.4.1
         version: 11.4.1(typescript@5.8.3)
       ccxt:
-        specifier: 4.4.89
-        version: 4.4.89
+        specifier: 4.4.91
+        version: 4.4.91
       superjson:
         specifier: ^2.2.2
         version: 2.2.2
@@ -1636,8 +1636,8 @@ packages:
   caniuse-lite@1.0.30001723:
     resolution: {integrity: sha512-1R/elMjtehrFejxwmexeXAtae5UO9iSyFn6G/I806CYC/BLyyBk1EPhrKBkWhy6wM6Xnm47dSJQec+tLJ39WHw==}
 
-  ccxt@4.4.89:
-    resolution: {integrity: sha512-5iX8BcbVFo/APqZpVD58F+aL8etJi8Rr60yGIcM8Eu0tm19HpUDy08uHo7tJOaUKEqlds78GCbTmF6BVp5ECLA==}
+  ccxt@4.4.91:
+    resolution: {integrity: sha512-IP7wZc1KfAojMfKyMeGwC/aJoXvAUFFUMtu3x9Wp5BAOISftcrcl/yt/gjxaPddrMT2/BcU3wHZzvqzr1FBFBw==}
     engines: {node: '>=15.0.0'}
 
   chai@5.2.0:
@@ -4337,7 +4337,7 @@ snapshots:
 
   caniuse-lite@1.0.30001723: {}
 
-  ccxt@4.4.89:
+  ccxt@4.4.91:
     dependencies:
       ws: 8.18.2
     transitivePeerDependencies:
