@@ -42,6 +42,7 @@ export class Platform {
 
     await this.removeDeprecatedExchanges();
     await this.cleanOrphanedBots();
+    await this.cleanOrphanedTrades();
     await this.ordersStream.create();
     await this.marketStream.create();
 
@@ -133,6 +134,27 @@ export class Platform {
     if (anyBotEnabled) {
       logger.warn(`[Processor] The previous process was interrupted, there are orphaned bots. Performing cleanup…`);
       await this.stopEnabledBots();
+    }
+  }
+
+  /**
+   * Cleans up trades left in an inconsistent state, e.g. from unexpected bot shutdowns.
+   */
+  async cleanOrphanedTrades() {
+    const tradesCount = await xprisma.smartTrade.count({
+      where: { ref: { not: null } },
+    });
+
+    if (tradesCount > 0) {
+      logger.warn(
+        `Found ${tradesCount} orphaned trades. This usually happens if the bot was stopped unexpectedly or crashed.`,
+      );
+      const result = await xprisma.smartTrade.updateMany({
+        where: { ref: { not: null } },
+        data: { ref: null },
+      });
+
+      logger.info(`Cleaned up ${result.count} orphaned trades.`);
     }
   }
 
