@@ -6,3 +6,4 @@ export * from "./dca-bot/router.js";
 export * from "./grid-bot/router.js";
 export * from "./smart-trade/router.js";
 export * from "./order/router.js";
+export * from "./exchange/router.js";
